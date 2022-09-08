@@ -1,4 +1,5 @@
 import fs  from "fs";
+import { exit } from "process";
 import { extractDataFromFile, extractDataFromFileString } from "./utils";
 export class AdventCode {
     dataArray: Array<number> = [];
@@ -18,6 +19,8 @@ export class AdventCode {
        console.log("d2 task 1 ==",hdc)
        let day2task2 = AdventCode.day2task2(extractDataFromFileString("command-input"));
        console.log("d2 task 2 ==",day2task2)
+       let day3task1 = AdventCode.day3task1(extractDataFromFileString("binary-input"));
+       console.log("d3 task 1 ==",day3task1)
     }
     public static higherSpeedIncreaseCount(arrayData:Array<number>): number{
         let count = 0;
@@ -78,6 +81,46 @@ export class AdventCode {
             }
         })
         return horizontalPos * depthPos;
+    }
+    public static day3task1(arrayData:Array<string>): number {
+        let gammaRate:number; //most occur
+        let epsilonRate:number; //least occur
+        let arr:Array<any> = [0,0,0,0,0,0,0];
+        arrayData.map((ele,i) => {
+            let charArry = Array.from(ele);
+            charArry.forEach((char,index)=>{
+                if(char == "1"){
+                    if(arr[index]){
+                        ++arr[index];
+                    }else {
+                        arr[index] = 1;
+                    }
+                    
+                }else if(char == "0"){
+                    if(arr[index]){
+                        --arr[index];
+                    }else{
+                        arr[index] = -1;
+                    }
+                }
+            });
+        });
+       let gammaRateArr:string="";
+       let epsilonArr:string="";
+       arr.map(ele => {
+            if(ele > 0){
+                gammaRateArr+="1";
+                epsilonArr+="0";
+            }else{
+                gammaRateArr+="0";
+                epsilonArr+="1";
+
+            }
+       });
+
+       gammaRate = parseInt(gammaRateArr,2);
+       epsilonRate  = parseInt(epsilonArr,2);
+        return gammaRate * epsilonRate;
     }
 
     
