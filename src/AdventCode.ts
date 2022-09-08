@@ -16,6 +16,8 @@ export class AdventCode {
        console.log("windowCount ==",windowCount)
        let hdc = AdventCode.day2task1(extractDataFromFileString("command-input"));
        console.log("d2 task 1 ==",hdc)
+       let day2task2 = AdventCode.day2task2(extractDataFromFileString("command-input"));
+       console.log("d2 task 2 ==",day2task2)
     }
     public static higherSpeedIncreaseCount(arrayData:Array<number>): number{
         let count = 0;
@@ -56,6 +58,23 @@ export class AdventCode {
                 horizontalPos += parseInt(data[1])
             }else if(data[0].toLocaleUpperCase() == "UP"){
                 depthPos -= parseInt(data[1])
+            }
+        })
+        return horizontalPos * depthPos;
+    }
+    public static day2task2(arrayData:Array<string>): number {
+        let horizontalPos:number = 0;
+        let depthPos:number = 0;
+        let aim:number = 0;
+        arrayData.map(ele => {
+            let data = ele.split(" ")
+            if(data[0].toLocaleUpperCase() == "DOWN"){
+                aim += parseInt(data[1])
+            }else if(data[0].toLocaleUpperCase() == "UP"){
+                aim -= parseInt(data[1])
+            }else if(data[0].toLocaleUpperCase() == "FORWARD"){
+                horizontalPos += parseInt(data[1]);
+                depthPos += aim * parseInt(data[1]);
             }
         })
         return horizontalPos * depthPos;
