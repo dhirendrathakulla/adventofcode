@@ -84,7 +84,10 @@ export class AdventCode {
     }
     public static day3task1(arrayData:Array<string>): number {
         let arr:Array<number> = [];
-        arrayData.map((ele) => {
+        let gammaRateString:string="";
+        let  epsilonRateString:string="";
+
+        arrayData.map((ele,i) => {
             let charArry = Array.from(ele);
             charArry.forEach((char,index)=>{
                 if(char == "1"){
@@ -92,24 +95,13 @@ export class AdventCode {
                 }else{
                     arr[index]?--arr[index]:arr[index] = -1;
                 }
+                if(i == arrayData.length -1){
+                    gammaRateString += (arr[index] > 0)?"1":"0";
+                    epsilonRateString += (arr[index] <= 0)?"1":"0";
+                }
             });
         });
-       let gammaRateArr:string="";
-       let epsilonArr:string="";
-       arr.map(ele => {
-            if(ele > 0){
-                gammaRateArr+="1";
-                epsilonArr+="0";
-            }else{
-                gammaRateArr+="0";
-                epsilonArr+="1";
-
-            }
-       });
-        return parseInt(gammaRateArr,2) * parseInt(epsilonArr,2);
+        return parseInt(gammaRateString,2) * parseInt(epsilonRateString,2);
     }
-
-    
-
 
 }
