@@ -83,25 +83,14 @@ export class AdventCode {
         return horizontalPos * depthPos;
     }
     public static day3task1(arrayData:Array<string>): number {
-        let gammaRate:number; //most occur
-        let epsilonRate:number; //least occur
-        let arr:Array<any> = [0,0,0,0,0,0,0];
-        arrayData.map((ele,i) => {
+        let arr:Array<number> = [];
+        arrayData.map((ele) => {
             let charArry = Array.from(ele);
             charArry.forEach((char,index)=>{
                 if(char == "1"){
-                    if(arr[index]){
-                        ++arr[index];
-                    }else {
-                        arr[index] = 1;
-                    }
-                    
-                }else if(char == "0"){
-                    if(arr[index]){
-                        --arr[index];
-                    }else{
-                        arr[index] = -1;
-                    }
+                    (arr[index])? ++arr[index]:arr[index] = 1;
+                }else{
+                    arr[index]?--arr[index]:arr[index] = -1;
                 }
             });
         });
@@ -117,10 +106,7 @@ export class AdventCode {
 
             }
        });
-
-       gammaRate = parseInt(gammaRateArr,2);
-       epsilonRate  = parseInt(epsilonArr,2);
-        return gammaRate * epsilonRate;
+        return parseInt(gammaRateArr,2) * parseInt(epsilonArr,2);
     }
 
     
