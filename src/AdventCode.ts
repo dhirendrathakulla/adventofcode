@@ -1,14 +1,16 @@
 import fs  from "fs";
 import { exit } from "process";
 import { extractDataFromFile, extractDataFromFileString } from "./utils";
+
+interface Count {
+    count1: number,
+    count0: number,
+}
 export class AdventCode {
     dataArray: Array<number> = [];
+   count10 = {count1:0,count0:0};
+
     constructor(){
-        // let text = fs.readFileSync("./input.txt").toString().trim();
-        // let data = text.split("\n");
-        // Object.keys(data).forEach((key) =>{
-        //     this.dataArray.push(parseInt(data[key]));
-        // });
         this.dataArray = extractDataFromFile("input");
        let count= AdventCode.higherSpeedIncreaseCount(this.dataArray);
        let windowCount= AdventCode.checkWindowsIncreaseCount(this.dataArray);
@@ -21,6 +23,9 @@ export class AdventCode {
        console.log("d2 task 2 ==",day2task2)
        let day3task1 = AdventCode.day3task1(extractDataFromFileString("binary-input"));
        console.log("d3 task 1 ==",day3task1)
+       let day3task2 = AdventCode.day3task2(extractDataFromFileString("binary-input"));
+       console.log("d3 task 2 ==",day3task2)
+
     }
     public static higherSpeedIncreaseCount(arrayData:Array<number>): number{
         let count = 0;
@@ -102,6 +107,43 @@ export class AdventCode {
             });
         });
         return parseInt(gammaRateString,2) * parseInt(epsilonRateString,2);
+    }
+    public static day3task2(arrayData:Array<string>): number {
+        let lifeSupportRating:number; //lifeSupportRating = oxyGenerator * co2Scrubber
+        let oxygenGeneratorFinalArray = arrayData;
+        let co2GeneratorFinalArray = arrayData;
+        let isOxygenGenerator = true;
+        // length of first each element, assuming all element length is same
+        for(let i= 0; i< arrayData[0].length; i++){
+            if(oxygenGeneratorFinalArray.length > 1){
+                oxygenGeneratorFinalArray = AdventCode.filterData(oxygenGeneratorFinalArray,i,isOxygenGenerator);
+            }
+            if(co2GeneratorFinalArray.length > 1){
+                co2GeneratorFinalArray = AdventCode.filterData(co2GeneratorFinalArray,i);
+            }
+        }
+        lifeSupportRating = parseInt(oxygenGeneratorFinalArray[0],2) * parseInt(co2GeneratorFinalArray[0],2);
+        return lifeSupportRating;
+    }
+
+    public static filterData(filterArray:Array<string>,elePos:number,isOxygen:boolean=false):Array<string> {
+        let array1:Array<string>= [];
+        let array0:Array<string>= [];
+        let finalArray:Array<string>= [];
+        filterArray.map((ele) => {
+            let charArry = Array.from(ele);
+            if(charArry[elePos] == "1"){
+                array1.push(ele)
+            }else if(charArry[elePos] == "0"){
+                array0.push(ele)
+            }
+        });
+        if(isOxygen) { // prior to 1 if equal, used for oxygen 
+            finalArray = (array1.length >= array0.length)?array1:array0;
+        }else{//prior to 0 if equal, used for CO2
+            finalArray = (array0.length <= array1.length)?array0:array1;
+        }
+        return finalArray;
     }
 
 }
