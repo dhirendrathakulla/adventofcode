@@ -1,6 +1,6 @@
 import fs  from "fs";
 import { exit } from "process";
-import { extractDataFromFile, extractDataFromFileString } from "./utils";
+import { extractDataFromFile, extractDataFromFileString,extractInputString } from "./utils";
 
 interface Count {
     count1: number,
@@ -25,6 +25,8 @@ export class AdventCode {
        console.log("d3 task 1 ==",day3task1)
        let day3task2 = AdventCode.day3task2(extractDataFromFileString("binary-input"));
        console.log("d3 task 2 ==",day3task2)
+       let day4task1 = AdventCode.day4task1(extractInputString("boards-input"));
+       console.log("d4 task 1 ==",day4task1)
 
     }
     public static higherSpeedIncreaseCount(arrayData:Array<number>): number{
@@ -144,6 +146,13 @@ export class AdventCode {
             finalArray = (array0.length <= array1.length)?array0:array1;
         }
         return finalArray;
+    }
+
+    public static day4task1(arrayData:Array<string>): number {
+        let drawnNumbers = arrayData[0];
+        let boards = arrayData.slice(1,arrayData.length)
+        console.log(boards)
+        return 0;
     }
 
 }
